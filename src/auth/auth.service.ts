@@ -1,23 +1,40 @@
 import { Injectable } from '@nestjs/common';
-import { UserDto } from './dto/user.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { User } from './user.entity';
 import * as jwt from 'jsonwebtoken';
+import { UserDto } from './dto/user.dto';
 
-const SECRET = 'secret_key';
-const users: UserDto[] = [];
+const SECRET = 'dragon';
 
 @Injectable()
 export class AuthService {
-  register(user: UserDto) {
-    users.push(user);
+  constructor(
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
+  ) {}
+
+  async register(userDto: UserDto) {
+    const existing = await this.userRepository.findOne({ where: { username: userDto.username } });
+
+    if (existing) {
+      return { message: 'Nom d\'utilisateur déjà pris' };
+    }
+
+    const user = this.userRepository.create(userDto);
+    await this.userRepository.save(user);
+
     return { message: 'Utilisateur enregistré avec succès' };
   }
 
-  login(user: UserDto) {
-    const found = users.find(u => u.username === user.username && u.password === user.password);
-    if (!found) {
+  async login(userDto: UserDto) {
+    const user = await this.userRepository.findOne({ where: { username: userDto.username } });
+
+    if (!user || user.password !== userDto.password) {
       return { message: 'Identifiants invalides' };
     }
-    const token = jwt.sign({ username: found.username }, SECRET);
+
+    const token = jwt.sign({ username: user.username }, SECRET);
     return { token };
   }
 
