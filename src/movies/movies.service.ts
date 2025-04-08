@@ -1,14 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
-import { firstValueFrom } from 'rxjs';
+import axios from 'axios';
 
 @Injectable()
 export class MoviesService {
-  constructor(
-    private readonly http: HttpService,
-    private readonly config: ConfigService,
-  ) {}
+  constructor(private readonly config: ConfigService) {}
 
   async fetchMovies(page = 1, search?: string, sort?: string) {
     const apiUrl = this.config.get('TMDB_API_URL');
@@ -33,9 +29,12 @@ export class MoviesService {
       params.sort_by = sort;
     }
 
-    const response$ = this.http.get(url, { headers, params });
-    const response = await firstValueFrom(response$);
-
-    return response.data;
+    try {
+      const response = await axios.get(url, { headers, params });
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching movies from TMDB:', error.message);
+      throw new Error('TMDB API call failed');
+    }
   }
 }
