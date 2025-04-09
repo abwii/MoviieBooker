@@ -2,10 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
+import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import { UserDto } from './dto/user.dto';
 
-const SECRET = 'dragon';
+const SECRET = 'secret_key';
 
 @Injectable()
 export class AuthService {
@@ -15,22 +16,33 @@ export class AuthService {
   ) {}
 
   async register(userDto: UserDto) {
-    const existing = await this.userRepository.findOne({ where: { username: userDto.username } });
+    try {
+      const existingUser = await this.userRepository.findOne({ where: { username: userDto.username } });
+      if (existingUser) {
+        return { message: 'Nom d\'utilisateur déjà pris' };
+      }
 
-    if (existing) {
-      return { message: 'Nom d\'utilisateur déjà pris' };
+      const hashedPassword = await bcrypt.hash(userDto.password, 10);
+      const user = this.userRepository.create({ ...userDto, password: hashedPassword });
+
+      await this.userRepository.save(user);
+
+      return { message: 'Utilisateur enregistré avec succès' };
+    } catch (error) {
+      console.error(error);
+      return { message: 'Erreur lors de l\'enregistrement de l\'utilisateur' };
     }
-
-    const user = this.userRepository.create(userDto);
-    await this.userRepository.save(user);
-
-    return { message: 'Utilisateur enregistré avec succès' };
   }
 
   async login(userDto: UserDto) {
     const user = await this.userRepository.findOne({ where: { username: userDto.username } });
 
-    if (!user || user.password !== userDto.password) {
+    if (!user) {
+      return { message: 'Identifiants invalides' };
+    }
+
+    const isMatch = await bcrypt.compare(userDto.password, user.password);
+    if (!isMatch) {
       return { message: 'Identifiants invalides' };
     }
 
