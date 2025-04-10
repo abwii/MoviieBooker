@@ -58,4 +58,8 @@ export class AuthService {
       return { message: 'Token invalide' };
     }
   }
+
+  getUserById(id: number) {
+    return this.userRepository.findOne({ where: { id } });
+  }
 }

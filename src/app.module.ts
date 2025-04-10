@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
 import { MoviesModule } from './movies/movies.module';
+import { ReservationModule } from './reservation/reservation.module';
+import { Reservation } from './reservation/reservation.entity';
 import { User } from './auth/user.entity';
 
 @Module({
@@ -17,12 +19,12 @@ import { User } from './auth/user.entity';
       username: 'postgres',
       password: 'dragon',
       database: 'exercice_nest',
-      entities: [User],
+      entities: [Reservation, User],
       synchronize: true,
     }),
     AuthModule,
     MoviesModule,
-    TypeOrmModule.forFeature([User]),
+    ReservationModule,
   ],
 })
 export class AppModule {}
