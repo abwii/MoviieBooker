@@ -1,16 +1,16 @@
-# MoviieBooker 🎬
+# MoviieBooker
 
 **MoviieBooker** est une application web Fullstack moderne et sécurisée permettant de consulter un catalogue de films synchronisé avec l'API TMDB (The Movie Database) et de réserver des séances de cinéma.
 
 Ce projet met en avant des pratiques d'ingénierie logicielle professionnelles :
-* 🔒 **Sécurité renforcée** : Pas de secrets ou d'identifiants de base de données codés en dur. Gestion stricte via variables d'environnement.
-* 📦 **Architecture modulaire** : Backend NestJS structuré en modules découplés (Auth, Movies, Reservations).
-* 🎨 **Interface moderne** : Interface utilisateur sous React (Vite + TS) conçue avec un design sombre premium, des effets de flou (glassmorphism) et une expérience utilisateur soignée.
-* ⚙️ **Qualité de code** : Historique Git propre et conventionnel (Conventional Commits), couverture de tests unitaires et E2E complète, et formatage standardisé.
+* **Sécurité renforcée** : Pas de secrets ou d'identifiants de base de données codés en dur. Gestion stricte via variables d'environnement.
+* **Architecture modulaire** : Backend NestJS structuré en modules découplés (Auth, Movies, Reservations).
+* **Interface moderne** : Interface utilisateur sous React (Vite + TS) conçue avec un design sombre premium, des effets de flou (glassmorphism) et une expérience utilisateur soignée.
+* **Qualité de code** : Historique Git propre et conventionnel (Conventional Commits), couverture de tests unitaires et E2E complète, et formatage standardisé.
 
 ---
 
-## 🛠️ Stack Technique
+## Stack Technique
 
 ### Backend (API REST)
 * **Framework** : [NestJS](https://nestjs.com/) (TypeScript)
@@ -25,7 +25,7 @@ Ce projet met en avant des pratiques d'ingénierie logicielle professionnelles :
 
 ---
 
-## 📂 Structure du Projet
+## Structure du Projet
 
 ```text
 MoviieBooker/
@@ -48,7 +48,7 @@ MoviieBooker/
 
 ---
 
-## ⚙️ Installation et Configuration
+## Installation et Configuration
 
 ### 1. Variables d'Environnement
 
@@ -116,7 +116,7 @@ TMDB_API_URL=https://api.themoviedb.org/3
 
 ---
 
-## 🧪 Tests
+## Tests
 
 Le projet dispose d'une couverture complète de tests unitaires et de tests d'intégration E2E pour valider la robustesse de l'API :
 
@@ -134,7 +134,7 @@ npm run test:e2e
 
 ---
 
-## 🌟 Fonctionnalités Implémentées
+## Fonctionnalités Implémentées
 
 1. **Authentification Utilisateur** :
    * Création de compte sécurisée avec hachage de mot de passe (`bcrypt`).
