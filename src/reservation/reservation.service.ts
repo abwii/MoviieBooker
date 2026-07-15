@@ -18,14 +18,15 @@ export class ReservationService {
 
   async createReservation(createReservationDto: any) {
     const { userId, movieId, reservationDate } = createReservationDto;
-    const movieDetails = await this.getMovieDetails(movieId);
-    const movieDuration = movieDetails.runtime;
+    await this.getMovieDetails(movieId);
     const now = new Date();
     const reservationTime = new Date(reservationDate);
     const twoHoursLater = new Date(now.getTime() + 2 * 60 * 60 * 1000);
 
     if (reservationTime < twoHoursLater) {
-      throw new Error('La réservation doit être effectuée au moins 2 heures à l\'avance.');
+      throw new Error(
+        "La réservation doit être effectuée au moins 2 heures à l'avance.",
+      );
     }
 
     const newReservation = this.reservationRepository.create({
@@ -40,7 +41,9 @@ export class ReservationService {
   }
 
   async cancelReservation(id: number) {
-    const reservation = await this.reservationRepository.findOne({ where: { id } });
+    const reservation = await this.reservationRepository.findOne({
+      where: { id },
+    });
     if (reservation) {
       await this.reservationRepository.remove(reservation);
       return { message: 'Reservation canceled successfully' };
@@ -49,8 +52,10 @@ export class ReservationService {
   }
 
   async getUserReservations(userId: number) {
-      const reservations = await this.reservationRepository.find({ where: { userId } });
-      return reservations;
+    const reservations = await this.reservationRepository.find({
+      where: { userId },
+    });
+    return reservations;
   }
 
   private async getMovieDetails(movieId: number) {
@@ -60,11 +65,14 @@ export class ReservationService {
 
     try {
       const response = await axios.get(url);
-      console.log("film :", response.data);
+      console.log('film :', response.data);
       return response.data;
     } catch (error) {
-      console.error("Error fetching movie details:", error.response?.data || error.message);
+      console.error(
+        'Error fetching movie details:',
+        error.response?.data || error.message,
+      );
       throw new Error('Impossible de récupérer les détails du film.');
     }
-  }  
+  }
 }

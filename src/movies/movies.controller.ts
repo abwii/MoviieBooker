@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Query, Param } from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import { ApiTags, ApiQuery } from '@nestjs/swagger';
 
@@ -17,5 +17,10 @@ export class MoviesController {
     @Query('sort') sort?: string,
   ) {
     return this.moviesService.fetchMovies(page, search, sort);
+  }
+
+  @Get(':id')
+  async getMovieById(@Param('id') id: number) {
+    return this.moviesService.fetchMovieById(id);
   }
 }

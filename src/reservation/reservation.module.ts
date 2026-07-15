@@ -7,10 +7,7 @@ import { User } from '../auth/user.entity';
 import { AuthModule } from '../auth/auth.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Reservation, User]),
-    AuthModule,
-  ],
+  imports: [TypeOrmModule.forFeature([Reservation, User]), AuthModule],
   providers: [ReservationService],
   controllers: [ReservationController],
 })

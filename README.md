@@ -1,98 +1,153 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# MoviieBooker 🎬
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+**MoviieBooker** est une application web Fullstack moderne et sécurisée permettant de consulter un catalogue de films synchronisé avec l'API TMDB (The Movie Database) et de réserver des séances de cinéma.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Ce projet met en avant des pratiques d'ingénierie logicielle professionnelles :
+* 🔒 **Sécurité renforcée** : Pas de secrets ou d'identifiants de base de données codés en dur. Gestion stricte via variables d'environnement.
+* 📦 **Architecture modulaire** : Backend NestJS structuré en modules découplés (Auth, Movies, Reservations).
+* 🎨 **Interface moderne** : Interface utilisateur sous React (Vite + TS) conçue avec un design sombre premium, des effets de flou (glassmorphism) et une expérience utilisateur soignée.
+* ⚙️ **Qualité de code** : Historique Git propre et conventionnel (Conventional Commits), couverture de tests unitaires et E2E complète, et formatage standardisé.
 
-## Description
+---
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 🛠️ Stack Technique
 
-## Project setup
+### Backend (API REST)
+* **Framework** : [NestJS](https://nestjs.com/) (TypeScript)
+* **ORMs & Base de données** : [TypeORM](https://typeorm.io/) avec [PostgreSQL](https://www.postgresql.org/)
+* **Sécurité & Auth** : Hachage de mots de passe via [bcrypt](https://github.com/kelektiv/node.bcrypt.js) et Tokens [JSON Web Tokens (JWT)](https://jwt.io/)
+* **Validation & DTOs** : `class-validator` et `class-transformer`
+* **Documentation** : [Swagger](https://swagger.io/) (`@nestjs/swagger`)
 
-```bash
-$ npm install
+### Frontend (SPA)
+* **Framework** : [React](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/) (Scaffolding via [Vite](https://vite.dev/))
+* **Design & Icons** : Lucide React & Design System personnalisé basé sur le Glassmorphic Dark Mode.
+
+---
+
+## 📂 Structure du Projet
+
+```text
+MoviieBooker/
+├── src/                      # API NestJS
+│   ├── auth/                 # Module d'authentification (Inscription, Login, Guards)
+│   ├── movies/               # Module catalogue de films (intégration TMDB API)
+│   ├── reservation/          # Module de réservations (logique métier & TypeORM entités)
+│   ├── app.module.ts         # Module principal NestJS (configuration DB asynchrone)
+│   └── main.ts               # Point d'entrée de l'API (CORS activé & Swagger setup)
+├── front/                    # Application React (Vite)
+│   ├── src/
+│   │   ├── App.tsx           # Dashboard de l'application & gestion d'état
+│   │   ├── index.css         # Design system & Glassmorphic CSS tokens
+│   │   └── main.tsx          # Point d'entrée React
+│   └── index.html            # Fichier d'index configuré pour l'accessibilité & le SEO
+├── test/                     # Tests d'intégration et E2E (NestJS)
+├── .env.example              # Template des variables d'environnement indispensables
+└── README.md                 # Cette documentation
 ```
 
-## Compile and run the project
+---
 
+## ⚙️ Installation et Configuration
+
+### 1. Variables d'Environnement
+
+Dupliquez le fichier template `.env.example` à la racine du projet et nommez-le `.env` :
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+cp .env.example .env
 ```
 
-## Run tests
+Renseignez les variables correspondantes :
+```env
+# Connexion PostgreSQL (Render, Docker, ou Local)
+DB_HOST=dpg-cvrtfvjuibrs73bqq8v0-a.frankfurt-postgres.render.com
+DB_PORT=5432
+DB_USERNAME=exercice_nest_user
+DB_PASSWORD=votre_mot_de_passe_ici
+DB_DATABASE=exercice_nest
+DB_SSL=true
 
-```bash
-# unit tests
-$ npm run test
+# Clé de signature JWT
+JWT_SECRET=generer_une_cle_securisee_ici
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+# TMDB API (Accès au catalogue de films)
+TMDB_API_KEY=votre_cle_api_tmdb
+TMDB_ACCESS_TOKEN=votre_token_d_acces_tmdb
+TMDB_API_URL=https://api.themoviedb.org/3
 ```
 
-## Deployment
+---
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+### 2. Démarrage du Backend (NestJS)
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+1. Installez les dépendances à la racine du projet :
+   ```bash
+   npm install
+   ```
 
+2. Lancez le serveur de développement :
+   ```bash
+   npm run start:dev
+   ```
+   L'API sera disponible sur : **`http://localhost:3000`**
+
+3. Accédez à la documentation interactive Swagger :
+   Ouvrez **`http://localhost:3000/api`** dans votre navigateur pour tester et interagir avec les endpoints de l'API.
+
+---
+
+### 3. Démarrage du Frontend (React + Vite)
+
+1. Rendez-vous dans le dossier `front` :
+   ```bash
+   cd front
+   ```
+
+2. Installez les dépendances du frontend :
+   ```bash
+   npm install
+   ```
+
+3. Démarrez le serveur de développement local :
+   ```bash
+   npm run dev
+   ```
+   L'interface web s'ouvrira sur : **`http://localhost:5173`**
+
+---
+
+## 🧪 Tests
+
+Le projet dispose d'une couverture complète de tests unitaires et de tests d'intégration E2E pour valider la robustesse de l'API :
+
+### Tests Unitaires
+Pour exécuter les suites de tests unitaires de NestJS (avec des mocks complets des connexions DB et de la configuration) :
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npm run test
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### Tests E2E (End-to-End)
+Pour exécuter les tests d'intégration NestJS qui valident les requêtes HTTP et le cycle de vie de l'application :
+```bash
+npm run test:e2e
+```
 
-## Resources
+---
 
-Check out a few resources that may come in handy when working with NestJS:
+## 🌟 Fonctionnalités Implémentées
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+1. **Authentification Utilisateur** :
+   * Création de compte sécurisée avec hachage de mot de passe (`bcrypt`).
+   * Authentification JWT avec persistance du token et des détails utilisateurs locaux.
+   * Routes sécurisées via un Guard JWT global synchronisé via `ConfigService`.
 
-## Support
+2. **Catalogue de Films** :
+   * Recherche de films par mot-clé en temps réel.
+   * Filtres et tris de films (par popularité, note moyenne, date de sortie).
+   * Affichage des affiches officielles de films TMDB (avec fallback SVG élégant si indisponible).
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+3. **Système de Réservations** :
+   * Sélection d'un film et choix de l'horaire de la séance.
+   * Validation métier : les séances doivent être réservées **au moins 2 heures à l'avance**.
+   * Récupération automatique de la liste enrichie des réservations de l'utilisateur connecté (titres de films et affiches).
+   * Option d'annulation instantanée des séances réservées.

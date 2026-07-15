@@ -1,7 +1,7 @@
 {
-  "name": "exercice",
+  "name": "moviiebooker",
   "version": "0.0.1",
-  "description": "",
+  "description": "MoviieBooker: A fullstack movie booking application with NestJS API and React UI.",
   "author": "",
   "private": true,
   "license": "UNLICENSED",
@@ -82,6 +82,9 @@
       "**/*.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "setupFiles": [
+      "<rootDir>/../test/jest-setup.ts"
+    ]
   }
 }

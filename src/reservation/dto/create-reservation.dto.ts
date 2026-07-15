@@ -2,7 +2,7 @@ import { IsInt, IsDateString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateReservationDto {
-  @ApiProperty({ description: 'ID de l\'utilisateur' })
+  @ApiProperty({ description: "ID de l'utilisateur" })
   @IsInt()
   userId: number;
 
@@ -10,7 +10,10 @@ export class CreateReservationDto {
   @IsInt()
   movieId: number;
 
-  @ApiProperty({ description: 'Date de la réservation', example: '2025-04-10T18:00:00Z' })
+  @ApiProperty({
+    description: 'Date de la réservation',
+    example: '2025-04-10T18:00:00Z',
+  })
   @IsDateString()
   reservationDate: string;
 }
